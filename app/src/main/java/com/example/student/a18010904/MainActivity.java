@@ -15,6 +15,7 @@ import java.lang.annotation.Target;
 
 public class MainActivity extends AppCompatActivity {
    String idLove = "LOVE";
+   final int NOTIFICATION_ID = 321321;
    NotificationChannel channelLove;
    NotificationManager nm;
     @Override
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             builder  = new Notification.Builder(MainActivity.this);
         }
 
-        Intent it = new Intent(MainActivity.this, infoActivity.class);
+        Intent it = new Intent(MainActivity.this, InfoActivity.class);
         it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP |
         Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pi = PendingIntent.getActivity(MainActivity.this,123
@@ -64,16 +65,23 @@ public class MainActivity extends AppCompatActivity {
         builder.setContentTitle("測試");
         builder.setContentText("這是內容");
        // builder.setSmallIcon(R.drawable.ic_launcher_foreground);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
+        if (Build.VERSION.SDK_INT >= 26) {
+
+            builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+        }
+        else {
+            builder.setSmallIcon(R.mipmap.ic_launcher);
+        }
         builder.setAutoCancel(true);
         builder.setContentIntent(pi);
 
 
         Notification notify = builder.build();
-        nm.notify(1,notify);
-
-
+        nm.notify(NOTIFICATION_ID,notify);
 
     }
-
+           public void click2(View v)
+           {
+               nm.cancel(NOTIFICATION_ID);
+           }
 }
